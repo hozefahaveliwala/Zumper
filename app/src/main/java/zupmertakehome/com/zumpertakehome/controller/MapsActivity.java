@@ -51,7 +51,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Integer maxPrice;
     private Integer radius;
     private Place previousPlace;
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!NetworkChecker.getInstance().isNetworkAvailable(context)) {
+                Snackbar.make(findViewById(R.id.main_layout), getString(R.string.no_active_connection), Snackbar.LENGTH_SHORT).show();
+            }
 
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +198,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /*
+     * Receiver to check information of Network Changes
+     */
+
     @Override
     public void parseResults(Result result) {
 
@@ -234,20 +246,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
-
-    /*
-     * Receiver to check information of Network Changes
-     */
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!NetworkChecker.getInstance().isNetworkAvailable(context)) {
-                Snackbar.make(findViewById(R.id.main_layout), getString(R.string.no_active_connection), Snackbar.LENGTH_SHORT).show();
-            }
-
-        }
-    };
 
     @Override
     protected void onResume() {

@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -48,6 +47,21 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relContact, relWebsite;
 
     private RestaurantDetail detail = null;
+    /**
+     * Receiver to check information of Network Changes
+     */
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!NetworkChecker.getInstance().isNetworkAvailable(context)) {
+                Snackbar.make(findViewById(R.id.scrolling), getString(R.string.no_active_connection), Snackbar.LENGTH_SHORT).show();
+            } else {
+                progressDialog.show();
+                if (resId != null) getRestaurantById(resId);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
 
 /**
  * Handle swipe and refresh
-  */
+ */
         ((SwipeRefreshLayout) findViewById(R.id.swipeRefresh)).setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -117,7 +131,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     /**
-     *
      * Call to get Restaurant details via retrofit
      */
     private void getRestaurantById(String placeId) {
@@ -192,22 +205,6 @@ public class DetailActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
 
     }
-
-    /**
-     * Receiver to check information of Network Changes
-     */
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!NetworkChecker.getInstance().isNetworkAvailable(context)) {
-                Snackbar.make(findViewById(R.id.scrolling), getString(R.string.no_active_connection), Snackbar.LENGTH_SHORT).show();
-            } else {
-                progressDialog.show();
-                if (resId != null) getRestaurantById(resId);
-            }
-        }
-    };
 
     @Override
     protected void onResume() {

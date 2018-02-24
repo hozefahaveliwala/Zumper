@@ -84,6 +84,9 @@ public class RestaurantDetail {
     @Expose
     private List<Review> reviews = new ArrayList<>();
 
+    public RestaurantDetail() {
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }
@@ -178,9 +181,6 @@ public class RestaurantDetail {
 
     public void setPriceLevel(Integer priceLevel) {
         this.priceLevel = priceLevel;
-    }
-
-    public RestaurantDetail() {
     }
 
     public String getFormattedAddress() {
