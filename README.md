@@ -1,5 +1,11 @@
 ## Take Home Assignment from Zumper
 
+## DEMO
+![Demo](https://github.com/hozefahaveliwala/Zumper/blob/master/ZumperTakeHomeGIF.gif)
+
+
+
+
 This Android App includes the following functionalities:
 
  - App opens to a map which displays restaurants in San Francisco area.
